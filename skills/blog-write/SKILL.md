@@ -17,12 +17,14 @@ user-invokable: true
 Writes complete blog articles from a topic, brief, or outline. Every article
 follows the 6 pillars of dual optimization (Google rankings + AI citations).
 
-**Key references:**
-- `references/content-templates.md` - Template selection guide and usage
-- `references/quality-scoring.md` - 5-category scoring (Content 30, SEO 25, E-E-A-T 15, Technical 15, AI Citation 15)
-- `references/eeat-signals.md` - Experience, expertise, authority, trust markers
-- `references/internal-linking.md` - Linking strategy and anchor text rules
-- `references/visual-media.md` - Image sourcing and chart styling
+**Key references** (paths relative to repo root; references live in the
+main `blog` skill's references directory, not in `blog-write/`):
+
+- `skills/blog/references/content-templates.md` -- Template selection guide and usage
+- `skills/blog/references/quality-scoring.md` -- 5-category scoring (Content 30, SEO 25, E-E-A-T 15, Technical 15, AI Citation 15)
+- `skills/blog/references/eeat-signals.md` -- Experience, expertise, authority, trust markers
+- `skills/blog/references/internal-linking.md` -- Linking strategy and anchor text rules
+- `skills/blog/references/visual-media.md` -- Image sourcing and chart styling
 
 ## Workflow
 
@@ -57,7 +59,8 @@ For a deeper surface-by-surface workflow, see
 
 ### Phase 1.5: Template Selection
 
-Select the appropriate content template from the 12 templates in `templates/`.
+Select the appropriate content template from the 12 templates in
+`skills/blog/templates/` (the main `blog` skill owns the templates directory).
 
 1. **Auto-detect content type** from the topic and search intent:
    | Signal | Template |
@@ -75,13 +78,13 @@ Select the appropriate content template from the 12 templates in `templates/`.
    | Survey results, experiment, original data | `data-research` |
    | Q&A, knowledge base, "What is X" | `faq-knowledge` |
 
-2. **Load the matching template** - Read from `templates/<type>.md`
+2. **Load the matching template** -- Read from `skills/blog/templates/<type>.md`
 3. **Adapt the outline** - Use the template's section structure, heading patterns,
    and word count guidance to shape Phase 3's outline
 4. **Fallback** - If no template clearly fits, use the generic outline structure
    in Phase 3 below. Inform the user which template was selected (or that none matched).
 
-See `references/content-templates.md` for detailed selection criteria and intent mapping.
+See `skills/blog/references/content-templates.md` for detailed selection criteria and intent mapping.
 
 ### Phase 2: Research
 
@@ -89,7 +92,7 @@ Spawn a `blog-researcher` agent (or do inline research with WebSearch):
 
 1. **Find 8-12 current statistics** (2025-2026 data preferred)
    - Search: `[topic] study 2025 2026 data statistics`
-   - Prioritize tier 1-3 sources (see `references/quality-scoring.md`)
+   - Prioritize tier 1-3 sources (see `skills/blog/references/quality-scoring.md`)
    - Record: statistic, source name, URL, date, methodology
 2. **Find a cover image** (wide, high-quality, topic-relevant):
    - Search: `site:pixabay.com [topic] wide banner` (preferred)
@@ -98,7 +101,7 @@ Spawn a `blog-researcher` agent (or do inline research with WebSearch):
    - Target dimensions: 1200x630 (OG-compatible) or 1920x1080
    - Or generate a custom SVG cover via `blog-chart` (text-on-gradient with key stat)
    - Or generate a custom AI image via `blog-image` sub-skill (if nanobanana-mcp configured)
-   - See `references/visual-media.md` for cover image sizing details
+   - See `skills/blog/references/visual-media.md` for cover image sizing details
 3. **Find 3-5 inline images** from open-source platforms:
    - **Pixabay** (preferred): Search `site:pixabay.com [topic keywords]`
      - Extract image URL from page
@@ -108,7 +111,7 @@ Spawn a `blog-researcher` agent (or do inline research with WebSearch):
      - Build URL: `https://images.unsplash.com/photo-<id>?w=1200&h=630&fit=crop&q=80`
    - **Pexels** (fallback): Search `site:pexels.com [topic keywords]`
 4. **Plan 2-4 data visualizations** from researched statistics
-   - Select diverse chart types (see `references/visual-media.md`)
+   - Select diverse chart types (see `skills/blog/references/visual-media.md`)
    - Map data points to chart formats
 5. **AI image generation** (optional, if nanobanana-mcp configured):
    - If stock photo results are insufficient (< 3 good matches) or topic is too niche
@@ -121,7 +124,7 @@ Spawn a `blog-researcher` agent (or do inline research with WebSearch):
    - Falls back silently if not configured or not authenticated
 7. **Find relevant YouTube videos** (2-3 per post):
    - Use `blog-google` youtube command or WebSearch `site:youtube.com [topic] [year]`
-   - Apply quality criteria from `references/video-embeds.md` (min score 50/100)
+   - Apply quality criteria from `skills/blog/references/video-embeds.md` (min score 50/100)
    - Select 2-3 best videos. Falls back silently if none found.
 
 ### Phase 3: Outline Generation
@@ -176,7 +179,7 @@ adapt this skeleton to match the template's section structure:
 - Forward-looking analysis
 
 ## [CTA Section or Inline Placement]
-- See `references/cta-placement.md` for placement rules by content type
+- See `skills/blog/references/cta-placement.md` for placement rules by content type
 - Place CTA after value delivery, not at arbitrary positions
 - Single focused CTA per post (266% more conversions)
 - [CTA: contextual call-to-action matching article topic]
@@ -194,8 +197,8 @@ Present the outline to the user for approval before writing.
 
 **Visual element pacing**: Insert `[IMAGE]`, `[CHART]`, `[VIDEO]`, or `[CALLOUT]` markers
 every 300-500 words. Alternate types (no consecutive same-type). See
-`references/content-rules.md` Visual Rhythm section and
-`references/cta-placement.md` for CTA positioning.
+`skills/blog/references/content-rules.md` Visual Rhythm section and
+`skills/blog/references/cta-placement.md` for CTA positioning.
 
 ### Phase 4: Chart Generation (Built-In)
 
@@ -208,7 +211,7 @@ before/after comparisons):
 4. Target 2-4 charts per 2,000-word post
 5. Distribute charts evenly - never cluster them
 
-See `references/visual-media.md` for chart type selection and styling rules.
+See `skills/blog/references/visual-media.md` for chart type selection and styling rules.
 
 ### Phase 5: Content Writing
 
@@ -320,7 +323,7 @@ Placement:
 - Minimum 2 per post, target 3 for comprehensive articles
 
 These markers map directly to the "Originality/unique value markers" criterion
-in the Content Quality scoring category (see `references/quality-scoring.md`).
+in the Content Quality scoring category (see `skills/blog/references/quality-scoring.md`).
 
 #### 5e. Citation Capsules
 
@@ -342,7 +345,7 @@ for AI systems to extract and cite in their responses.
 ```
 
 Capsules map to the "AI Citation Readiness" scoring category (15 points) in
-`references/quality-scoring.md`.
+`skills/blog/references/quality-scoring.md`.
 
 #### 5f. Internal Linking Zones
 
@@ -367,7 +370,7 @@ For a deeper dive into keyword clustering, see our
 ```
 
 Target 5-10 internal link zones per 2,000-word post. Use descriptive anchor text
-(never "click here" or "read more"). See `references/internal-linking.md` for
+(never "click here" or "read more"). See `skills/blog/references/internal-linking.md` for
 anchor text rules and linking strategy.
 
 #### 5g. Paragraph Rules
@@ -416,7 +419,7 @@ MDX format:
 ```
 
 #### 5k. Video Embedding
-Embed YouTube videos using srcdoc lazy-loading pattern from `references/video-embeds.md`.
+Embed YouTube videos using srcdoc lazy-loading pattern from `skills/blog/references/video-embeds.md`.
 Include aria-label, noscript fallback for AI crawlers. Place after relevant H2, 500+ words apart.
 
 #### 5l. Citation Format
@@ -482,7 +485,7 @@ Before delivering, verify:
     - Full list in `agents/blog-writer.md`
 17. **Contractions** - Verify natural use of contractions ("it's", "we've", "don't", "isn't"). Formal AI prose avoids contractions; natural writing uses them.
 18. **Rhetorical questions** - Verify at least one rhetorical question every 200-300 words to break up declarative patterns.
-19. **YouTube videos** - 2-3 embeds with lazy loading, aria-labels, and noscript fallback (see `references/video-embeds.md`)
+19. **YouTube videos** - 2-3 embeds with lazy loading, aria-labels, and noscript fallback (see `skills/blog/references/video-embeds.md`)
 
 ### Phase 7: Delivery
 
