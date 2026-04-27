@@ -59,30 +59,32 @@ output/
 definitive-resesarch-blueprint-for-claude-blog.md
 .github-audit/
 
-# Obsidian vault metadata and scratch artifacts
-.obsidian/
-*.canvas
-docs/superpowers/
+# Obsidian vault metadata (root only, not nested .obsidian dirs in skills)
+/.obsidian/
+/docs/superpowers/
 
-# Working images, GIFs, screenshots (not part of the plugin)
-Pasted image *.png
-image-example-*.png
-*-cover-16x9.gif
-*-cover-square.png
-*-cover-16x9.png
-cosmic-brain-cover.gif
-wiki-graph-grow.gif
-welcome-canvas.gif
-workflow-loop.gif
+# Canvas files at repo root only (preserves canvas templates inside skills/)
+/*.canvas
 
-# Working video clips
-short01-*.mp4
+# Working images and screenshots at repo root only
+/Pasted image *.png
+/image-example-*.png
+/*-cover-16x9.gif
+/*-cover-square.png
+/*-cover-16x9.png
+/cosmic-brain-cover.gif
+/wiki-graph-grow.gif
+/welcome-canvas.gif
+/workflow-loop.gif
 
-# Dated scratch notes at repo root
-2026-*.md
-2026-*.txt
-Ranking Plan.md
-whats-new.html
+# Working video clips at repo root only
+/short01-*.mp4
 
-# Hex-named cached GIFs (auto-downloaded artifacts)
-[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]*.gif
+# Dated scratch notes at repo root only (preserves dated content in skills/docs/tests)
+/2026-*.md
+/2026-*.txt
+/Ranking Plan.md
+/whats-new.html
+
+# Hex-named cached GIFs at repo root only (auto-downloaded artifacts)
+/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]*.gif
