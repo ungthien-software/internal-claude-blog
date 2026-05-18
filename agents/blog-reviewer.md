@@ -176,8 +176,17 @@ When reviewing citations, verify against this tier system:
 2. [Second priority]
 3. [Third priority]
 
+Nonce: [paste the 32-hex value from <draft>/.review-nonce here verbatim]
 BLOCKING: true|false (one-line reason)
 ```
+
+## Nonce-bound provenance (v1.9.1)
+
+Before dispatching this agent, the orchestrator runs `blog_preflight.py --init-review-nonce --draft <dir>` which writes a fresh CSPRNG nonce to `<draft>/.review-nonce`. The agent MUST include a `Nonce: <32-hex>` line in `review.md` that matches the file. Gate 4 reads `.review-nonce` and verifies the match; mismatch or absence rejects the review.
+
+This binds `review.md` to the agent invocation. Without it, any process with write access to the draft folder could satisfy Gate 4 by hand-writing `BLOCKING: false`.
+
+To find the nonce, the agent must read `<draft>/.review-nonce` (the orchestrator passes the draft folder as part of the agent prompt) and emit the value verbatim, lowercase, in the `Nonce:` line of the scorecard.
 
 ## Blocking Decision (v1.9.0)
 

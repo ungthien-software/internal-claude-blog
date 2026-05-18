@@ -60,6 +60,42 @@ ITERATION_COUNTER_FILE = ".iteration-count"
 MAX_ITERATIONS = 3
 EXIT_ITERATION_CAP = 2
 
+# VULN-803 nonce-bound review.md provenance (v1.9.1).
+# Before v1.9.1, Gate 4 trusted any writer of <draft>/review.md. A malicious
+# sub-skill or prompt-injected sibling agent could satisfy the gate by
+# writing one line. v1.9.1 binds the review to a CSPRNG nonce written by
+# the orchestrator before agent dispatch; the agent must echo the nonce
+# back in review.md. Backwards-compat: drafts initialised before v1.9.1
+# (no nonce file) pass with a deprecation warning until v1.10.0.
+REVIEW_NONCE_FILE = ".review-nonce"
+NONCE_PATTERN = re.compile(r"^Nonce:\s*([0-9a-f]{32})\s*$", re.MULTILINE | re.IGNORECASE)
+
+
+def _init_review_nonce(draft: Path) -> str:
+    """Generate a CSPRNG nonce and write it to <draft>/.review-nonce.
+
+    Returns the nonce hex string. Overwrites any prior nonce so each
+    review attempt has fresh provenance.
+    """
+    import secrets
+    nonce = secrets.token_hex(16)
+    nonce_path = draft / REVIEW_NONCE_FILE
+    import tempfile
+    fd, tmp = tempfile.mkstemp(
+        dir=str(nonce_path.parent), prefix=f".{nonce_path.name}.", suffix=".tmp"
+    )
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(f"{nonce}\n")
+        os.replace(tmp, str(nonce_path))
+    except Exception:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
+    return nonce
+
 
 def _iteration_check(draft: Path, reset: bool = False) -> int:
     """Read/increment the per-draft iteration counter; refuse past cap.
@@ -526,8 +562,17 @@ def gate_5_asset_link_integrity(draft_dir: Path) -> dict:
 
 def gate_4_content_review(draft_dir: Path) -> dict:
     """Check that the blog-reviewer agent has run and emitted review.md
-    with `BLOCKING: false`. The agent itself is dispatched by the
-    orchestrator, not by this script."""
+    with `BLOCKING: false` AND a matching Nonce (v1.9.1).
+
+    Nonce-bound provenance (VULN-803, v1.9.1):
+      * If <draft>/.review-nonce exists, review.md MUST contain a line
+        `Nonce: <matching-32-hex>` (case-insensitive, anchored to line).
+        Missing or mismatched -> gate fails with explicit violation.
+      * If <draft>/.review-nonce is absent, the gate emits a deprecation
+        warning and falls back to v1.9.0 behavior (BLOCKING line only).
+        This preserves backwards compatibility for drafts created before
+        v1.9.1. v1.10.0 will make the nonce mandatory.
+    """
     review = draft_dir / "review.md"
     if not review.is_file():
         return _gate_result(
@@ -535,17 +580,71 @@ def gate_4_content_review(draft_dir: Path) -> dict:
             ["review.md absent; orchestrator must dispatch blog-reviewer agent before preflight Gate 4"],
         )
     text = review.read_text(encoding="utf-8")
+
+    # Nonce check (v1.9.1)
+    nonce_warnings: list[str] = []
+    nonce_path = draft_dir / REVIEW_NONCE_FILE
+    if nonce_path.is_file():
+        try:
+            expected_nonce = nonce_path.read_text(encoding="utf-8").strip().lower()
+        except OSError as e:
+            return _gate_result(
+                4, "Content Review", False,
+                [f"failed to read {REVIEW_NONCE_FILE}: {e}"],
+            )
+        if not re.fullmatch(r"[0-9a-f]{32}", expected_nonce):
+            return _gate_result(
+                4, "Content Review", False,
+                [f"{REVIEW_NONCE_FILE} contents are not a 32-hex nonce"],
+            )
+        nonce_match = NONCE_PATTERN.search(text)
+        if not nonce_match:
+            return _gate_result(
+                4, "Content Review", False,
+                [
+                    "review.md is missing the `Nonce: <hex>` line required for v1.9.1+ "
+                    "provenance. The orchestrator must include the nonce from "
+                    f"{REVIEW_NONCE_FILE} in the blog-reviewer agent's output."
+                ],
+            )
+        actual_nonce = nonce_match.group(1).lower()
+        if actual_nonce != expected_nonce:
+            return _gate_result(
+                4, "Content Review", False,
+                [
+                    "review.md Nonce does not match "
+                    f"{REVIEW_NONCE_FILE}; provenance check failed (potential "
+                    "review.md forgery)."
+                ],
+            )
+    else:
+        nonce_warnings.append(
+            f"{REVIEW_NONCE_FILE} not found; falling back to v1.9.0 BLOCKING-only "
+            "gate (deprecation: v1.10.0 will make the nonce mandatory). Run "
+            "`blog_preflight.py --init-review-nonce --draft <dir>` before dispatching "
+            "the blog-reviewer agent."
+        )
+
     m = re.search(r"^BLOCKING:\s*(true|false)\s*(?:\((.*?)\))?\s*$", text, re.IGNORECASE | re.MULTILINE)
     if not m:
         return _gate_result(
             4, "Content Review", False,
             ["review.md present but no `BLOCKING: true|false` line found at end of scorecard"],
+            nonce_warnings,
         )
     blocking = m.group(1).lower() == "true"
     reason = (m.group(2) or "").strip()
     if blocking:
-        return _gate_result(4, "Content Review", False, [f"reviewer blocked: {reason or 'see review.md'}"], [], blocking=True, reason=reason)
-    return _gate_result(4, "Content Review", True, [], [], blocking=False, reason=reason)
+        return _gate_result(
+            4, "Content Review", False,
+            [f"reviewer blocked: {reason or 'see review.md'}"],
+            nonce_warnings,
+            blocking=True, reason=reason,
+        )
+    return _gate_result(
+        4, "Content Review", True, [], nonce_warnings,
+        blocking=False, reason=reason,
+    )
 
 
 def main() -> int:
@@ -560,12 +659,27 @@ def main() -> int:
         action="store_true",
         help="Reset the per-draft iteration counter to 1 (this run counts as the first).",
     )
+    parser.add_argument(
+        "--init-review-nonce",
+        action="store_true",
+        help=(
+            "Generate a fresh CSPRNG nonce and write it to <draft>/.review-nonce, "
+            "then exit. The orchestrator runs this before dispatching the "
+            "blog-reviewer agent; Gate 4 verifies the agent's review.md contains "
+            "the matching nonce (VULN-803, v1.9.1)."
+        ),
+    )
     args = parser.parse_args()
 
     draft = Path(args.draft).resolve()
     if not draft.is_dir():
         print(f"ERROR: {draft} is not a directory", file=sys.stderr)
         return 1
+
+    if args.init_review_nonce:
+        nonce = _init_review_nonce(draft)
+        print(nonce)
+        return 0
 
     # VULN-802 (v1.9.1): code-enforced iteration cap. Refuse past MAX_ITERATIONS.
     iteration_exit = _iteration_check(draft, reset=args.reset_iterations)
