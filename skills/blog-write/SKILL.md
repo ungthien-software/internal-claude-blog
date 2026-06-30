@@ -20,7 +20,7 @@ license: MIT
 
 1. Take the `<topic>` argument from the user's command.
 2. Slugify it: lowercase, replace spaces and underscores with hyphens, strip non-alphanumeric characters except hyphens.
-3. Write the template below verbatim to `content/blog/<slugified-topic>.md` using the Write tool.
+3. Write the exact template (no need to add, modify anything) below verbatim to `content/blog/<slugified-topic>.md` using the Write tool.
 4. Confirm to the user: "Created `content/blog/<slugified-topic>.md`."
 
 ## Template
