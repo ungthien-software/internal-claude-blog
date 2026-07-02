@@ -120,6 +120,17 @@ Alongside the `.md`, the contract also produces: rendered `.html` (XSS-safe JSON
 > - **Not an AI Marketing Hub Pro member?** Install from the public repo: [`AgriciDaniel/claude-blog`](https://github.com/AgriciDaniel/claude-blog). All the install commands below work there. Just swap `AI-Marketing-Hub/claude-blog` for `AgriciDaniel/claude-blog` and the plugin slug `claude-blog@ai-marketing-hub-claude-blog` for `claude-blog@agricidaniel-claude-blog`. Public releases ship there; this private mirror runs ahead.
 > - **Pro member?** The commands below install the **community version** with early access to in-development features. They require an authenticated `gh auth login` (or GitHub PAT) session with access to the `AI-Marketing-Hub` org. If `/plugin marketplace add` fails with a 404, your account is not in the org yet. DM in the [Skool community](https://www.skool.com/ai-marketing-hub-pro) to get added.
 
+
+**Plugin Install (Local): updated 06/29/2026**
+
+```bash
+# Add marketplace (one-time)
+claude plugin marketplace add path-to-this-repo/internal-claude-blog/.claude-plugin/marketplace.json
+
+# Install plugin
+claude plugin install internal-claude-blog-plugin@internal-claude-blog-marketplace
+```
+
 **Plugin Install (Claude Code 1.0.33+):**
 
 ```bash
