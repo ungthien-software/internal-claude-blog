@@ -1,5 +1,6 @@
 ---
-name: blog-write
+
+## name: blog-write
 description: >
   Write new blog articles from scratch optimized for Google rankings and AI
   citations. Generates full articles with template selection, answer-first
@@ -10,9 +11,10 @@ description: >
   Use when user says "write blog", "new blog post", "create article",
   "write about", "draft blog", "generate blog post".
 user-invokable: true
-argument-hint: "<topic>"
+argument-hint: ""
 license: MIT
----
+
+
 
 # Blog Writer: New Article Generation
 
@@ -28,7 +30,11 @@ main `blog` skill's references directory, not in `blog-write/`):
 - `skills/blog/references/eeat-signals.md`: Experience, expertise, authority, trust markers
 - `skills/blog/references/internal-linking.md`: Linking strategy and anchor text rules
 
+
+
 ## Workflow
+
+
 
 ### Phase 0: Surface Targeting
 
@@ -39,12 +45,17 @@ and answer-first formatting throughout.
 
 ### Phase 1: Topic Understanding
 
-1. **Clarify the topic** - If the user provides just a topic, ask:
-   - Target audience (who is this for?)
-   - Primary keyword / search intent
-   - Desired word count (default: 2,000-2,500 words)
-   - Platform/format (MDX, markdown, HTML - auto-detect if in a project)
-2. **If a brief exists** - Load it and skip to Phase 1.5
+This skill runs autonomously from start to finish. Do NOT stop to ask the user
+questions. Infer all inputs from the topic and any project context:
+
+- **Target audience / search intent** - Infer from the topic and primary keyword.
+- **Primary keyword** - Derive from the topic phrasing.
+- **Word count** - Default to 2,000-2,500 words unless the topic implies otherwise.
+- **Platform/format** - Auto-detect from the project (MDX, markdown, HTML); default
+  to markdown if none is detected.
+- **If a brief exists** - Load it and use it as the source of truth.
+
+
 
 ### Phase 1.5: Template Selection
 
@@ -52,26 +63,27 @@ Select the appropriate content template from the 12 templates in
 `skills/blog/templates/` (the main `blog` skill owns the templates directory).
 
 1. **Auto-detect content type** from the topic and search intent:
-   | Signal | Template |
-   |--------|----------|
-   | "How to...", process, steps | `how-to-guide` |
-   | "Best X", "Top N", list format | `listicle` |
-   | Client result, before/after, metrics | `case-study` |
-   | "X vs Y", comparison, alternatives | `comparison` |
-   | Broad topic, comprehensive guide | `pillar-page` |
-   | "Is X worth it", product evaluation | `product-review` |
-   | Opinion, prediction, industry take | `thought-leadership` |
-   | Expert quotes, multi-source collection | `roundup` |
-   | Code walkthrough, tool demo, technical | `tutorial` |
-   | Breaking news, algorithm update, event | `news-analysis` |
-   | Survey results, experiment, original data | `data-research` |
-   | Q&A, knowledge base, "What is X" | `faq-knowledge` |
+
+  | Signal                                    | Template             |
+  | ----------------------------------------- | -------------------- |
+  | "How to...", process, steps               | `how-to-guide`       |
+  | "Best X", "Top N", list format            | `listicle`           |
+  | Client result, before/after, metrics      | `case-study`         |
+  | "X vs Y", comparison, alternatives        | `comparison`         |
+  | Broad topic, comprehensive guide          | `pillar-page`        |
+  | "Is X worth it", product evaluation       | `product-review`     |
+  | Opinion, prediction, industry take        | `thought-leadership` |
+  | Expert quotes, multi-source collection    | `roundup`            |
+  | Code walkthrough, tool demo, technical    | `tutorial`           |
+  | Breaking news, algorithm update, event    | `news-analysis`      |
+  | Survey results, experiment, original data | `data-research`      |
+  | Q&A, knowledge base, "What is X"          | `faq-knowledge`      |
 
 2. **Load the matching template**: Read from `skills/blog/templates/<type>.md`
 3. **Adapt the outline** - Use the template's section structure, heading patterns,
-   and word count guidance to shape Phase 3's outline
+  and word count guidance to shape Phase 3's outline
 4. **Fallback** - If no template clearly fits, use the generic outline structure
-   in Phase 3 below. Inform the user which template was selected (or that none matched).
+  in Phase 3 below. Inform the user which template was selected (or that none matched).
 
 See `skills/blog/references/content-templates.md` for detailed selection criteria.
 
@@ -80,17 +92,19 @@ See `skills/blog/references/content-templates.md` for detailed selection criteri
 Spawn a `blog-researcher` agent (or do inline research with WebSearch):
 
 1. **Find 8-12 current statistics** (2025-2026 data preferred)
-   - Search: `[topic] study 2025 2026 data statistics`
-   - Prioritize tier 1-3 sources (see `skills/blog/references/quality-scoring.md`)
-   - Record: statistic, source name, URL, date, methodology
+  - Search: `[topic] study 2025 2026 data statistics`
+  - Prioritize tier 1-3 sources (see `skills/blog/references/quality-scoring.md`)
+  - Record: statistic, source name, URL, date, methodology
 2. **Find a cover image** (wide, high-quality, topic-relevant, 1200x630 OG-compatible):
-   - Search `site:pixabay.com [topic] wide banner` (preferred), then
-     `site:unsplash.com [topic] wide`, then `site:pexels.com [topic] wide` as fallback
+  - Search `site:pixabay.com [topic] wide banner` (preferred), then
+   `site:unsplash.com [topic] wide`, then `site:pexels.com [topic] wide` as fallback
 3. **Find 3-5 inline images** from open-source platforms:
-   - **Pixabay** (preferred): `site:pixabay.com [topic keywords]`, verify a direct
-     CDN URL returns HTTP 200 via `curl -sI "<url>" | head -1`
-   - **Unsplash** (alternative): `https://images.unsplash.com/photo-<id>?w=1200&h=630&fit=crop&q=80`
-   - **Pexels** (fallback): `site:pexels.com [topic keywords]`
+  - **Pixabay** (preferred): `site:pixabay.com [topic keywords]`, verify a direct
+   CDN URL returns HTTP 200 via `curl -sI "<url>" | head -1`
+  - **Unsplash** (alternative): `https://images.unsplash.com/photo-<id>?w=1200&h=630&fit=crop&q=80`
+  - **Pexels** (fallback): `site:pexels.com [topic keywords]`
+
+
 
 ### Phase 3: Outline Generation
 
@@ -156,7 +170,8 @@ adapt this skeleton to match the template's section structure:
 - [INTERNAL-LINK: anchor text → next logical content]
 ```
 
-Present the outline to the user for approval before writing.
+Build the outline internally and proceed directly to writing - do not pause for
+user approval.
 
 **Visual element pacing**: Insert `[IMAGE]` or `[CALLOUT]` markers every 300-500
 words, alternating types. See `skills/blog/references/cta-placement.md` for CTA
@@ -164,9 +179,23 @@ positioning.
 
 ### Phase 4: Content Writing
 
+**Output file (REQUIRED):** Write the finished article to `blog/<slug>.md` relative
+to the current working directory, where `<slug>` is the slugified topic:
+
+- Lowercase the topic.
+- Replace every run of non-alphanumeric characters (spaces, punctuation) with a
+  single hyphen `-`.
+- Strip leading/trailing hyphens.
+- Example: topic `"How AI Overviews Change SEO in 2026!"` -> `blog/how-ai-overviews-change-seo-in-2026.md`.
+
+Use exactly this path and filename - do not add dates, subfolders, or other
+prefixes. A downstream program parses the printed path (see Phase 6), so it must be
+correct and match the file actually written.
+
 Write the full article following these rules:
 
 #### 4a. Frontmatter
+
 ```yaml
 ---
 title: "[Question-format title with primary keyword]"
@@ -196,6 +225,7 @@ Immediately after the introduction (before the first H2 body section), add a sum
 ```
 
 Requirements:
+
 - 3-5 bullet points, 40-60 words combined
 - Must be self-contained - understandable without reading the article
 - Include 1 specific statistic with source name
@@ -203,12 +233,17 @@ Requirements:
 - Default label: "Key Takeaways". If a persona is active, use the persona's summary_label
 - Backward compatible: accept existing TL;DR boxes during rewrites
 
+
+
 #### 4c. Answer-First Formatting (Critical)
+
 Every H2 section MUST open with a 40-60 word paragraph containing:
+
 - At least one specific statistic with source attribution
 - A direct answer to the heading's implicit question
 
 Pattern:
+
 ```markdown
 ## How Does X Impact Y in 2026?
 
@@ -222,21 +257,19 @@ for the reader.]
 Every public statistic must carry three components AT DRAFTING TIME:
 
 1. **Year anchor in prose.** Write "In 2026," or "As of Q1 2026," BEFORE
-   the statistic, in the sentence body. Year buried inside parentheses
+  the statistic, in the sentence body. Year buried inside parentheses
    does not count. Example:
-   - GOOD: "In 2026, Ahrefs found a 58% lower CTR for position one when
-     an AI Overview was present."
-   - WEAK: "Position-one CTR dropped 58% (Ahrefs, 2026)."
-
+  - GOOD: "In 2026, Ahrefs found a 58% lower CTR for position one when
+  an AI Overview was present."
+  - WEAK: "Position-one CTR dropped 58% (Ahrefs, 2026)."
 2. **Inline citation with publisher and title.** Name both the publisher
-   and the document title (or report name), not just a brand. Example:
-   - GOOD: "Ahrefs, AI Overviews CTR update, December 2025"
-   - WEAK: "Ahrefs reported..."
-
+  and the document title (or report name), not just a brand. Example:
+  - GOOD: "Ahrefs, AI Overviews CTR update, December 2025"
+  - WEAK: "Ahrefs reported..."
 3. **URL plus retrieval date in the source block at the bottom of the post.**
-   Provenance discipline lets future readers and AI crawlers verify the
+  Provenance discipline lets future readers and AI crawlers verify the
    source still says what was claimed. Format:
-   - "[Publisher], [Title], retrieved YYYY-MM-DD, [full URL]"
+  - "[Publisher], [Title], retrieved YYYY-MM-DD, [full URL]"
 
 **FLOW quality bar (drop or replace):**
 Public claims must use verified sources OR stay qualitative. If a statistic
@@ -256,13 +289,14 @@ not available elsewhere.
 Tag each with a comment or visible marker:
 
 - `[ORIGINAL DATA]` - Proprietary surveys, experiments, A/B test results, case
-  study metrics the author collected first-hand
+study metrics the author collected first-hand
 - `[PERSONAL EXPERIENCE]` - First-hand observations, lessons learned from direct
-  involvement, "when we tried X, Y happened" narratives
+involvement, "when we tried X, Y happened" narratives
 - `[UNIQUE INSIGHT]` - Analysis others haven't made, contrarian perspectives
-  backed by data, novel connections between existing research
+backed by data, novel connections between existing research
 
 Placement:
+
 - Weave into the body text naturally
 - Use as inline comments: `<!-- [ORIGINAL DATA] -->` before the relevant paragraph
 - Or as visible callouts if the format supports it:
@@ -280,12 +314,14 @@ For each major H2 section, generate a citation capsule - a 40-60 word self-conta
 passage designed so AI systems can extract and quote it directly.
 
 Requirements per capsule:
+
 - 40-60 words, self-contained (makes sense in isolation)
 - Contains: one specific claim + one data point + source attribution
 - Written in a declarative, quotable style
 - Placed within the H2 section body (not as a separate block)
 
 Example:
+
 ```markdown
 According to a 2026 Gartner study, 58% of enterprise buyers now consult AI
 assistants before contacting a vendor ([Gartner](https://www.gartner.com), 2026).
@@ -302,17 +338,20 @@ Mark internal linking opportunities throughout the article using placeholder
 notation. The user (or a follow-up pass) will resolve these to actual URLs.
 
 Zone placement:
+
 - **Introduction** - Link to related pillar content or topic hub
 - **Each H2 section** - Link to supporting articles, deeper dives, related tools
 - **FAQ section** - Link answers to detailed content that expands on the answer
 - **Conclusion** - Link to the next logical piece of content the reader should consume
 
 Format:
+
 ```markdown
 [INTERNAL-LINK: anchor text → target description]
 ```
 
 Example:
+
 ```markdown
 For a deeper dive into keyword clustering, see our
 [INTERNAL-LINK: complete guide to keyword clustering → pillar page on keyword research methodology].
@@ -323,16 +362,22 @@ Target 5-10 internal link zones per 2,000-word post. Use descriptive anchor text
 anchor text rules and linking strategy.
 
 #### 4g. Paragraph Rules
+
 - Every paragraph: 40-80 words (never exceed 150)
 - Every sentence: max 15-20 words
 - Start each paragraph with the most important information
 - Target Flesch Reading Ease: 60-70
 
+
+
 #### 4h. Heading Rules
+
 - One H1 (title only)
 - H2s for main sections (60-70% as questions)
 - H3s for subsections only - never skip levels
 - Include primary keyword naturally in 2-3 headings
+
+
 
 #### 4i. Image Embedding
 
@@ -344,16 +389,24 @@ anchor text rules and linking strategy.
 - Space evenly throughout the post (not clustered)
 - Alt text should be a full descriptive sentence
 
+
+
 #### 4j. Citation Format
+
 Inline attribution (always):
+
 ```markdown
 Organic CTR declined 61% with AI Overviews ([Seer Interactive](https://www.seerinteractive.com/), 2025).
 ```
 
+
+
 #### 4k. FAQ Section
+
 Add 3-5 FAQ items with 40-60 word answers. Each answer must contain a statistic.
 
 For MDX with FAQSchema component:
+
 ```mdx
 <FAQSchema faqs={[
   { question: "Question?", answer: "40-60 word answer with statistic and source." },
@@ -361,6 +414,7 @@ For MDX with FAQSchema component:
 ```
 
 For standard markdown:
+
 ```markdown
 ## Frequently Asked Questions
 
@@ -369,11 +423,14 @@ For standard markdown:
 Answer with statistic and source attribution (40-60 words).
 ```
 
+
+
 ### Phase 5: Quality Check
 
 Before delivering, verify:
 
 #### Structure and Content
+
 1. Every H2 opens with a statistic + source
 2. No paragraph exceeds 150 words
 3. All statistics have named tier 1-3 sources
@@ -383,24 +440,32 @@ Before delivering, verify:
 7. Heading hierarchy is clean (H1 -> H2 -> H3)
 8. Meta description is 150-160 chars with a stat
 
+
+
 #### New Element Verification
-9. TL;DR box present after introduction (40-60 words, contains statistic + source)
-10. At least 2-3 information gain markers (`[ORIGINAL DATA]`, `[PERSONAL EXPERIENCE]`, or `[UNIQUE INSIGHT]`)
-11. Citation capsules present in major H2 sections (40-60 words, self-contained, quotable)
-12. Internal linking zones marked in introduction, H2 sections, FAQ, and conclusion
-13. No AI-detectable phrases from banned list (see `agents/blog-writer.md`)
+
+1. TL;DR box present after introduction (40-60 words, contains statistic + source)
+2. At least 2-3 information gain markers (`[ORIGINAL DATA]`, `[PERSONAL EXPERIENCE]`, or `[UNIQUE INSIGHT]`)
+3. Citation capsules present in major H2 sections (40-60 words, self-contained, quotable)
+4. Internal linking zones marked in introduction, H2 sections, FAQ, and conclusion
+5. No AI-detectable phrases from banned list (see `agents/blog-writer.md`)
+
+
 
 #### Burstiness and Naturalness Check
-14. **Sentence length variance** - Verify a mix of short (8-word) and long (25-word) sentences. Uniform sentence length signals AI authorship.
-15. **Banned AI phrase scan** - Check for and remove:
-    - "in today's digital landscape", "it's important to note", "dive into"
+
+1. **Sentence length variance** - Verify a mix of short (8-word) and long (25-word) sentences. Uniform sentence length signals AI authorship.
+2. **Banned AI phrase scan** - Check for and remove:
+  - "in today's digital landscape", "it's important to note", "dive into"
     - "game-changer", "navigate the landscape", "revolutionize", "seamlessly"
     - "cutting-edge", "harness the power of", "leverage" (as verb)
     - "delve", "crucial", "elevate", "foster", "landscape" (overused)
     - "multifaceted", "robust", "tapestry", "embark"
     - Full list in `agents/blog-writer.md`
-16. **Contractions** - Verify natural use of contractions ("it's", "we've", "don't", "isn't"). Formal AI prose avoids contractions; natural writing uses them.
-17. **Rhetorical questions** - Verify at least one rhetorical question every 200-300 words to break up declarative patterns.
+3. **Contractions** - Verify natural use of contractions ("it's", "we've", "don't", "isn't"). Formal AI prose avoids contractions; natural writing uses them.
+4. **Rhetorical questions** - Verify at least one rhetorical question every 200-300 words to break up declarative patterns.
+
+
 
 ### Phase 5.5: Delivery Contract Enforcement (simplified)
 
@@ -411,22 +476,19 @@ reviewer; the gates are.
 Steps:
 
 1. **Hero image**: if `nanobanana-mcp` is loaded, generate the hero via the MCP tool.
-   Otherwise run `python scripts/generate_hero.py --topic "<title>" --tags "<tags>" --out <folder>`
+  Otherwise run `python scripts/generate_hero.py --topic "<title>" --tags "<tags>" --out <folder>`
    (uses the Gemini, Unsplash, Pexels, Pixabay, Openverse ladder). The hero is the
    cover/OG image.
-
 2. **Content review (blocking)**: dispatch the `blog-reviewer` agent (Task tool)
-   against the canonical `.md`. The agent emits its scorecard to `<folder>/review.md`
+  against the canonical `.md`. The agent emits its scorecard to `<folder>/review.md`
    ending with `BLOCKING: true|false (reason)`. Threshold: overall score 90/100 or
    higher AND zero P0 issues per `editorial-heuristics.md`.
-
 3. **Asset + link integrity**: run `python scripts/blog_preflight.py --draft <folder>`
-   to check assets and links (Gate 5). Exit 0 = ship; exit 1 = block.
+  to check assets and links (Gate 5). Exit 0 = ship; exit 1 = block.
    (PDF rendering and multi-viewport visual verification are intentionally skipped
    in this simplified flow.)
-
 4. **Iteration**: on any block, capture the failure diagnostic from
-   `<folder>/preflight-report.json`, re-dispatch the blog-writer agent with the
+  `<folder>/preflight-report.json`, re-dispatch the blog-writer agent with the
    diagnostic as input, and re-run from step 1. Maximum 3 iterations. On the 3rd
    failure, STOP and present the failure diagnostic instead of the draft.
 
@@ -477,3 +539,17 @@ Summary template:
 - Run `/blog analyze <file>` to verify quality score
 - Generate schema markup: `/blog schema <file>`
 ```
+
+**Final step (MUST DO - IMPORTANT):** The article must already be saved to
+`blog/<slug>.md` (see Phase 4). Then print the output path to stdout on its own
+line, in exactly this format so a downstream program can parse it:
+
+```
+BLOG_FILE: blog/<slug>.md
+```
+
+Rules for this line:
+- Print the literal prefix `BLOG_FILE: ` followed by the exact path written in Phase 4.
+- One path only, on its own line, with no surrounding quotes, backticks, or extra text.
+- The printed path MUST match the file that was actually written - the program uses
+  this line to locate the file, so any mismatch breaks it.
