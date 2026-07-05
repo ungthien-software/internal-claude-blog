@@ -540,8 +540,8 @@ Summary template:
 - Generate schema markup: `/blog schema <file>`
 ```
 
-**Final step (MUST DO - IMPORTANT):** The article must already be saved to
-`blog/<slug>.md` (see Phase 4). Then print the output path to stdout on its own
+**Final step (MUST DO - IMPORTANT):** The article must be saved to
+`blog/<slug>.md` if not saved yet. Then print the output path to stdout on its own
 line, in exactly this format so a downstream program can parse it:
 
 ```
