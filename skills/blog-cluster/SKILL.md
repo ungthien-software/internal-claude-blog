@@ -80,7 +80,7 @@ Reference: `references/semantic-clustering.md`
 
 ### Step 1. Seed keyword expansion
 
-Use WebSearch to expand the seed into a keyword universe of 30 to 50 phrases:
+Use web_search to expand the seed into a keyword universe of 30 to 50 phrases:
 
 1. Direct search of `<seed>` to capture related searches and "People also ask".
 2. Long-tail expansion: `<seed> guide`, `<seed> tips`, `<seed> tools`, `<seed> examples`, `<seed> vs`, `best <seed>`, `how to <seed>`.
@@ -307,7 +307,7 @@ Return a concise summary to the user with totals, the scorecard path, and the ne
 |----------|--------|
 | Seed keyword too broad (more than 50 keyword variants) | Suggest narrowing the focus before clustering. |
 | Seed keyword too narrow (fewer than 5 keyword variants) | Offer a smaller cluster (pillar plus 2 to 3 spokes) or suggest broadening. |
-| WebSearch unavailable | Fall back to Claude's reasoning for keyword expansion and grouping. Note the reduced accuracy in the scorecard. |
+| web_search unavailable | Fall back to Claude's reasoning for keyword expansion and grouping. Note the reduced accuracy in the scorecard. |
 | `blog-write` fails for one post | Log, skip, continue. Mark the gap in the scorecard. |
 | `blog-write` not installed | Return: "blog-cluster requires claude-blog. Install it before running this skill." |
 | `cluster-plan.json` malformed | Validate JSON and report parse errors with line numbers. |

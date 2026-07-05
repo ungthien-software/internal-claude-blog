@@ -177,7 +177,7 @@ rendering the embed. Every video embed must include a noscript fallback.
 
 | Scenario | Behavior |
 |----------|----------|
-| No GOOGLE_API_KEY available | Use WebSearch `site:youtube.com [topic] [year]` to find videos |
+| No GOOGLE_API_KEY available | Use web_search `site:youtube.com [topic] [year]` to find videos |
 | No suitable videos found | Skip silently, continue blog generation without video |
 | API rate limit exceeded | Use cached/previously found videos, or skip |
 | Video removed after embedding | Noscript text provides graceful fallback with title and link |

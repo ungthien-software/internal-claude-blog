@@ -343,7 +343,7 @@ Hugo site uses YAML (`---` delimiters), add to `hugo.toml`:
 **Symptom**: `/blog write` or `/blog brief` takes a long time to complete.
 
 **Causes**:
-- **Research phase**: WebSearch calls for statistics and images can take
+- **Research phase**: web_search calls for statistics and images can take
   30-60 seconds depending on the topic
 - **Chart generation**: Each `blog-chart` invocation adds 10-20 seconds
 - **Large context**: Loading many reference files increases processing time

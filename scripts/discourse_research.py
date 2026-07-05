@@ -2,17 +2,17 @@
 """
 Discourse Research: Synthesis Helper for /blog discourse
 
-Consumes a JSON file of pre-gathered SERP / WebSearch results and produces:
+Consumes a JSON file of pre-gathered SERP / web_search results and produces:
 1. A DISCOURSE.md brief at the requested output path
 2. Structured JSON on stdout (when --format json)
 
 This script does NOT call any external APIs or perform searches. It expects the
-search to have been performed upstream (by Claude via WebSearch, or by another
+search to have been performed upstream (by Claude via web_search, or by another
 process) and the results to be passed in as JSON.
 
 Adapted from the methodology of last30days-skill v3.2.1 (Matt Van Horn, MIT,
 github.com/mvanhorn/last30days-skill). The upstream uses platform APIs; this
-script uses pre-gathered WebSearch results.
+script uses pre-gathered web_search results.
 
 Input JSON schema:
     [

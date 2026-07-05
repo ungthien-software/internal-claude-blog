@@ -31,7 +31,7 @@ Reference documents (paths from repo root):
 ## Input Handling
 
 - **Local file**: Read the file directly
-- **URL**: Fetch with WebFetch, extract content
+- **URL**: Fetch with web_fetch, extract content
 - **Directory**: Scan for blog files, audit all (batch mode)
 - **Flags**: `--format json|table`, `--batch`, `--sort score`, `--rubric`, `--cognitive-load`
 

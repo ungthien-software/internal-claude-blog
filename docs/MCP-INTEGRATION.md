@@ -102,14 +102,14 @@ replacing the need for separate Ahrefs, Semrush, GSC, and PageSpeed integrations
 
 | Feature | Without DataForSEO MCP | With DataForSEO MCP |
 |---------|----------------------|---------------------|
-| SERP analysis | WebSearch only | Live Google/Bing/Yahoo SERP with all features (AI Overviews, PAA, etc.) |
+| SERP analysis | web_search only | Live Google/Bing/Yahoo SERP with all features (AI Overviews, PAA, etc.) |
 | Keyword research | Not available | Search volume, CPC, competition, keyword difficulty, search intent |
 | Backlink analysis | Not available | Referring domains, anchor text, spam score, new/lost links |
 | On-page auditing | Manual review | Automated crawl, meta tags, Core Web Vitals, Lighthouse scores |
 | Domain analytics | Not available | Technology detection, WHOIS data, competitor domain analysis |
 | Content analysis | Quality scoring only | Sentiment analysis, keyword density, content quality scoring |
 | AI optimization | GEO content audit | LLM mention tracking, ChatGPT scraping, AI visibility metrics |
-| Competitor research | WebSearch only | Ranked keywords, traffic estimation, content gap analysis |
+| Competitor research | web_search only | Ranked keywords, traffic estimation, content gap analysis |
 
 ### Enhanced Workflows
 
@@ -322,8 +322,8 @@ Add the GSC MCP server to your Claude Code settings (`~/.claude/settings.json`):
 | Feature | Without Ahrefs MCP | With Ahrefs MCP |
 |---------|-------------------|-----------------|
 | Backlink analysis | Not available | Referring domains, anchor text distribution |
-| Keyword research | WebSearch only | Search volume, difficulty, SERP features |
-| Competitor monitoring | Manual WebSearch | Automated gap analysis and tracking |
+| Keyword research | web_search only | Search volume, difficulty, SERP features |
+| Competitor monitoring | Manual web_search | Automated gap analysis and tracking |
 | Content gap analysis | Not available | Keywords competitors rank for that you don't |
 | Domain Rating | Not available | Live DR tracking |
 
@@ -392,7 +392,7 @@ Opportunity: 234 keywords where competitors rank but you don't
 |---------|-------------------|-----------------|
 | Keyword gap analysis | Not available | Side-by-side keyword overlap with competitors |
 | Position tracking | Not available | Daily rank tracking for target keywords |
-| Topic research | WebSearch only | Semrush Topic Research data |
+| Topic research | web_search only | Semrush Topic Research data |
 | Content audit | Quality-only scoring | Quality + traffic + keyword data |
 
 ### Enhanced Workflows

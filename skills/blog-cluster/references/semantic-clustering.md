@@ -21,7 +21,7 @@ Example:
 
 ### Step 1. Build the keyword universe from the seed
 
-Use WebSearch to expand the seed keyword into 30 to 50 candidate phrases:
+Use web_search to expand the seed keyword into 30 to 50 candidate phrases:
 
 1. Direct search of the seed; capture related searches and "People also ask".
 2. Long-tail expansion: append `guide`, `tips`, `tools`, `examples`, `vs`, `best`, `how to`.
@@ -39,8 +39,8 @@ intent matching, and no paid SEO tool is required.
 
 Method:
 
-1. WebSearch keyword A. Note the top 10 organic result URLs (domain plus path).
-2. WebSearch keyword B. Note the top 10 organic result URLs.
+1. web_search keyword A. Note the top 10 organic result URLs (domain plus path).
+2. web_search keyword B. Note the top 10 organic result URLs.
 3. Count the overlap: how many URLs appear in both result sets?
 
 Thresholds:
@@ -76,7 +76,7 @@ Rules:
 
 ### Step 4. Entity mapping
 
-Use WebSearch to identify the key entities Google associates with the topic:
+Use web_search to identify the key entities Google associates with the topic:
 
 - People (industry leaders, authors, researchers)
 - Products and tools (software, services, platforms)

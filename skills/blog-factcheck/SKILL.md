@@ -4,7 +4,7 @@ description: >
   Verify statistics and claims in blog posts by fetching cited source URLs and
   checking if the claimed data actually appears on the page. Extracts all
   statistical claims (numbers, percentages, named sources), fetches each cited
-  URL via WebFetch, and scores match confidence (exact match 1.0, paraphrase
+  URL via web_fetch, and scores match confidence (exact match 1.0, paraphrase
   0.7-0.9, not found 0.0). Flags uncited claims as UNVERIFIED. Use when user
   says "fact check", "verify statistics", "check sources", "validate claims",
   "factcheck", "source verification".
@@ -41,7 +41,7 @@ amount, or named source. Build a claims list with these fields:
 
 For each claim that includes a URL:
 
-1. Fetch the source page via WebFetch
+1. Fetch the source page via web_fetch
 2. Search the returned content for the specific numeric value
 3. If exact value found, check surrounding context matches the claim topic
 4. Assign a confidence score (see Verification Scoring below)
@@ -128,11 +128,11 @@ claude-blog inherits FLOW's evidence triple (year anchor in prose, inline citati
 
 ## Limitations
 
-- **Paywalled content**: WebFetch cannot access content behind login walls. These
+- **Paywalled content**: web_fetch cannot access content behind login walls. These
   score as WEAK (0.5) with a note about paywall detection.
-- **Dynamic pages**: JavaScript-rendered content may not be available via WebFetch.
+- **Dynamic pages**: JavaScript-rendered content may not be available via web_fetch.
   If the page returns minimal content, note this in the status.
-- **PDF sources**: WebFetch may not extract PDF text reliably. Flag PDF URLs for
+- **PDF sources**: web_fetch may not extract PDF text reliably. Flag PDF URLs for
   manual verification.
 - **Archived pages**: If a URL returns 404, suggest checking web.archive.org.
 - **Rate limits**: Process no more than 10 URLs per run to avoid overwhelming

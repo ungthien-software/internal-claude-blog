@@ -84,7 +84,7 @@ recommended, optional).
 
 Swap foreign examples for local equivalents:
 
-- Use WebSearch to find local case studies, brands, or scenarios.
+- Use web_search to find local case studies, brands, or scenarios.
 - Replace inline, preserving the same argument and structure.
 - If no local equivalent exists, keep the original but add local context
   ("In the German market, the equivalent dynamic is X").

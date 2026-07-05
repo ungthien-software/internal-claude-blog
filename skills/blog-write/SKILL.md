@@ -89,7 +89,7 @@ See `skills/blog/references/content-templates.md` for detailed selection criteri
 
 ### Phase 2: Research
 
-Spawn a `blog-researcher` agent (or do inline research with WebSearch):
+Spawn a `blog-researcher` agent (or do inline research with web_search):
 
 1. **Find 8-12 current statistics** (2025-2026 data preferred)
   - Search: `[topic] study 2025 2026 data statistics`

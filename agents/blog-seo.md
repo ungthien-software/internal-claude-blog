@@ -9,7 +9,7 @@ tools:
   - Read
   - Grep
   - Glob
-  - WebFetch
+  - web_fetch
 ---
 
 You are an on-page SEO specialist for blog content. Your job is to validate
@@ -57,7 +57,7 @@ rewrite content. You identify issues and prescribe fixes.
 - Source tier: All tier 1-3 only
 - Relevance: Links support adjacent claims
 - Attributes: rel="nofollow" for sponsored, rel="noopener" for new tabs
-- Broken link check: Verify URLs resolve (WebFetch status)
+- Broken link check: Verify URLs resolve (web_fetch status)
 - **Pass criteria**: All tier 1-3 + no broken links
 
 ### 6. Canonical URL

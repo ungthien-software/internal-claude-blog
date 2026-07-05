@@ -212,7 +212,7 @@ When invoked as a Task subagent from blog-write or blog-researcher:
 ```
 
 **Graceful fallback:** If auth is missing or query fails, return immediately
-with no error. The calling workflow continues with WebSearch-based research.
+with no error. The calling workflow continues with web_search-based research.
 Never block blog-write or blog-rewrite because NotebookLM is unavailable.
 
 ## Data Storage
@@ -234,7 +234,7 @@ All data stored inside the skill directory:
 | Rate limit (50/day) | Wait until midnight PST or switch Google account |
 | Notebook not found | Check with `notebook_manager.py list` |
 | Query timeout (120s) | Retry with simpler question or `--show-browser` to debug |
-| MCP unavailable (internal) | Return silently: writing workflow uses WebSearch |
+| MCP unavailable (internal) | Return silently: writing workflow uses web_search |
 
 ## Limitations
 

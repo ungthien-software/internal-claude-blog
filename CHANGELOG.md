@@ -807,7 +807,7 @@ fixes only.
   tool-boundary preservation rule still blocks the attacker even if the
   fence is broken.
 - **Documentation**: blog-discourse/SKILL.md adds an explicit Phase 3.5
-  "WebSearch Untrusted-Data Contract" that requires the agent to sanitize
+  "web_search Untrusted-Data Contract" that requires the agent to sanitize
   snippets for instruction-shaped patterns BEFORE writing them to the JSON
   pipeline. The orchestrator-level fence protects DOWNSTREAM consumers; this
   protects the script's INPUT from being weaponized at capture time.
@@ -885,7 +885,7 @@ fixes only.
   Commands table renamed to `--input` to match the script's actual flag
   (`scripts/discourse_research.py --input`). Argument-hint updated.
   `mkstemp` snippet now closes the returned file descriptor (pedagogical
-  correctness). Phase 3.5 WebSearch Untrusted-Data Contract added.
+  correctness). Phase 3.5 web_search Untrusted-Data Contract added.
   "Contrarian" section renamed to "Niche / single-source themes" to match
   the script's renamed bucket.
 - **docs/COMMANDS.md**: Command Overview table extended from 18 entries to
@@ -981,14 +981,14 @@ Three research-discipline methodologies adapted from `last30days-skill` v3.2.1
 discourse engine (Reddit / X / YouTube / TikTok / Hacker News / Polymarket /
 GitHub / Bluesky / etc.) that depends on platform APIs. This release ports the
 RESEARCH METHODOLOGY only; no API plumbing is copied. Everything runs API-free
-via WebSearch with platform-targeted site operators.
+via web_search with platform-targeted site operators.
 
 #### Added
 
 - `skills/blog-discourse/SKILL.md`: new user-invokable sub-skill. Researches
   "what are people actually saying about <topic> in the last 30 days" across
   Reddit / Hacker News / X / YouTube / dev.to / Medium / GitHub / Stack
-  Overflow / Substack / Bluesky via WebSearch + site operators. Produces
+  Overflow / Substack / Bluesky via web_search + site operators. Produces
   `DISCOURSE.md` at project root with NEW themes, cross-platform consensus,
   contrarian takes, practitioner specifics, and source breakdown. Composes
   with `/blog brief | write | strategy` via `--feed-into <command>`.
@@ -1044,7 +1044,7 @@ landed before this release.
   (`skills/blog/SKILL.md`)**: the v1.8.0 BRAND.md / VOICE.md / DISCOURSE.md
   auto-load was flagged CRITICAL by 3 of 8 cybersecurity agents
   independently. A poisoned project-root file could instruct downstream
-  agents (including blog-researcher with WebFetch authority) to exfiltrate
+  agents (including blog-researcher with web_fetch authority) to exfiltrate
   data. Closed by an "Untrusted-Data Contract" section that mandates
   explicit fencing (`=== BEGIN UNTRUSTED PROJECT-ROOT CONTEXT ===`),
   pre-injection sanitization scan for instruction-shaped patterns
@@ -1053,7 +1053,7 @@ landed before this release.
   files cannot unlock tools the agent does not already have), and
   provenance recording (file mtime in the injection).
 - **`SECURITY.md` adds T12 trust boundary** documenting the project-root
-  auto-load surface in line with T9 (WebFetch indirect injection).
+  auto-load surface in line with T9 (web_fetch indirect injection).
 
 #### Security (HIGH)
 - **Path-traversal / symlink / DoS hardening for new v1.8.0 scripts**:
@@ -1200,14 +1200,14 @@ This release closes all of them across 10 focused commits.
 #### Docs
 - New comprehensive `SECURITY.md`: vulnerability disclosure flow, in/out
   of scope, T1-T11 trust boundaries with STRIDE, dual-use technology notes
-  (patchright stealth-fork rationale, WebFetch indirect prompt injection
+  (patchright stealth-fork rationale, web_fetch indirect prompt injection
   risk model, sync_flow defenses), audit history, hardening checklist.
 - `docs/MCP-INTEGRATION.md` updated with new `--global` default flow.
 - `skills/blog-image/SKILL.md` setup section reflects new defaults +
   pinning convention.
 - `docs/COMMANDS.md` updated to cover all 27 user commands (was 17).
 - `agents/blog-researcher.md` adds explicit prompt-injection framing for
-  WebFetch / WebSearch content (T9 boundary defense).
+  web_fetch / web_search content (T9 boundary defense).
 - `agents/blog-writer.md` clarifies dual install path for analyze script.
 
 #### Dependencies

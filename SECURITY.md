@@ -80,7 +80,7 @@ plugin straddles. Findings against any of these are in scope:
 | T6 | Public package registries (npm via npx, pip) → install.sh + .mcp runtime | typosquat, slopsquat, malicious lifecycle |
 | T7 | Installer/uninstaller fs mutation under `~/.claude/skills/` | rm -rf wildcard escape, dir-bomb |
 | T8 | Local credential stores (`~/.config/claude-seo/`, browser_state) | token theft, scope creep |
-| T9 | WebFetch/WebSearch results entering Claude instruction context | indirect prompt injection |
+| T9 | web_fetch/web_search results entering Claude instruction context | indirect prompt injection |
 | T10 | Package-manager runtime (`pip`, `npx -y`, `patchright install`) | binary substitution, runtime CVE |
 | T11 | `sync_flow.py` upstream FLOW corpus (instruction surface) | upstream tamper, indirect prompt injection |
 | T12 | Project-root files (`BRAND.md`, `VOICE.md`, `DISCOURSE.md`) auto-loaded into orchestrator system prompt (v1.8.0) | indirect prompt injection via poisoned project repo |
@@ -95,10 +95,10 @@ When a user runs `/blog write`, `/blog rewrite`, `/blog brief`, `/blog strategy`
 
 These files are USER-CONTROLLED or potentially THIRD-PARTY-CONTROLLED (if a user clones a poisoned content repo with malicious project-root files). They enter the orchestrator's system prompt as context for downstream agents.
 
-The same indirect prompt-injection risk that applies to WebFetch results (T9) applies here. Mitigation has two enforcement classes - be explicit about which is which:
+The same indirect prompt-injection risk that applies to web_fetch results (T9) applies here. Mitigation has two enforcement classes - be explicit about which is which:
 
 **Platform-enforced (cannot be bypassed by injection):**
-1. **Tool-boundary preservation**: the Claude Code platform refuses to grant a downstream agent any tool not listed in its frontmatter. Directives in BRAND.md / VOICE.md / DISCOURSE.md CANNOT unlock `WebFetch` for an agent that does not declare it. This is the load-bearing defense; it works regardless of what the orchestrator does.
+1. **Tool-boundary preservation**: the Claude Code platform refuses to grant a downstream agent any tool not listed in its frontmatter. Directives in BRAND.md / VOICE.md / DISCOURSE.md CANNOT unlock `web_fetch` for an agent that does not declare it. This is the load-bearing defense; it works regardless of what the orchestrator does.
 
 **Code-enforced via `scripts/load_untrusted_root.py` (v1.8.3) - when the orchestrator follows its instruction to invoke the helper:**
 
@@ -110,7 +110,7 @@ The same indirect prompt-injection risk that applies to WebFetch results (T9) ap
 
 **Failure mode for the code-enforced layer**: if the orchestrator regression-skips `load_untrusted_root.py` and hand-writes a fence, the nonce defense degrades to instruction-only (the v1.8.2 state). The tool-boundary remains load-bearing in that scenario.
 
-**What this closes**: a poisoned BRAND.md from a shared repo could instruct an agent with `WebFetch` authority to exfiltrate research findings to an attacker URL. The tool-boundary blocks tool-grant escalation regardless. The helper's nonce + sanitize + provenance layers reduce the chance Claude is manipulated into using the tools it DOES have for malicious purposes.
+**What this closes**: a poisoned BRAND.md from a shared repo could instruct an agent with `web_fetch` authority to exfiltrate research findings to an attacker URL. The tool-boundary blocks tool-grant escalation regardless. The helper's nonce + sanitize + provenance layers reduce the chance Claude is manipulated into using the tools it DOES have for malicious purposes.
 
 **Honest scope**: nonce, sanitize, and provenance are independent of each other only at the helper level (the helper performs all three in one invocation). If the orchestrator skips the helper, all three skip together. Treat tool-boundary as the load-bearing layer; the helper-enforced layers are defense-in-depth.
 
@@ -149,10 +149,10 @@ case here is: "respond to my own questions about my own notebooks where
 no API exists." If you have a security concern about how this is used,
 please report it.
 
-### WebFetch / WebSearch in `blog-researcher` agent
+### web_fetch / web_search in `blog-researcher` agent
 
-**Where**: only `agents/blog-researcher.md` declares the WebSearch and
-WebFetch tools. The other 4 agents (`blog-writer`, `blog-seo`,
+**Where**: only `agents/blog-researcher.md` declares the web_search and
+web_fetch tools. The other 4 agents (`blog-writer`, `blog-seo`,
 `blog-reviewer`, `blog-translator`) have only `Read, Write, Edit, Glob,
 Grep` - least-privilege.
 
@@ -163,7 +163,7 @@ LLMs CAN be steered. This is true of every agent platform that allows
 tool-driven retrieval.
 
 **Mitigations in this plugin**:
-1. Only `blog-researcher` has WebFetch/WebSearch grants; one agent of
+1. Only `blog-researcher` has web_fetch/web_search grants; one agent of
    five.
 2. The orchestrator pattern routes: researcher returns research data,
    then a separate agent (`blog-writer`) generates content from that

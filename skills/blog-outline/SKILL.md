@@ -40,7 +40,7 @@ If only a topic is given, infer the keyword and intent from context.
 
 ### Step 2: SERP Analysis
 
-Use WebSearch to analyze the top 5 results for the target keyword:
+Use web_search to analyze the top 5 results for the target keyword:
 
 1. Search for the target keyword
 2. For each of the top 5 results, note:
@@ -51,7 +51,7 @@ Use WebSearch to analyze the top 5 results for the target keyword:
    - **Unique angles** - What makes each result distinct
    - **Gaps** - What's missing or weak
 
-3. Use WebFetch on the top 2-3 results to extract detailed heading structures
+3. Use web_fetch on the top 2-3 results to extract detailed heading structures
    if the search snippets are insufficient.
 
 4. Compile a summary of common patterns and missed opportunities.

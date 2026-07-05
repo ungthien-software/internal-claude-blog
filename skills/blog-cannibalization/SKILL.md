@@ -71,7 +71,7 @@ Display the results table and per-cluster recommendations.
 
 ## API Mode Workflow (DataForSEO)
 
-Requires the `--api` flag. Uses WebFetch to call DataForSEO endpoints.
+Requires the `--api` flag. Uses web_fetch to call DataForSEO endpoints.
 
 ### Endpoints Used
 
@@ -196,5 +196,5 @@ When intent is genuinely different despite surface-level keyword similarity.
 - **No blog files found**: If the directory contains no .md, .mdx, or .html files, report "No blog files found in [directory]" and suggest checking the path
 - **DataForSEO credentials missing**: In API mode, if credentials are not configured, fall back to local mode automatically and notify the user
 - **API rate limits**: DataForSEO has per-minute rate limits. If a 429 response is received, wait and retry once. If it persists, switch to local mode for remaining URLs
-- **WebFetch failures**: If a source URL is unreachable, skip it and note "Unable to verify - source unavailable" in the report
+- **web_fetch failures**: If a source URL is unreachable, skip it and note "Unable to verify - source unavailable" in the report
 - **Single-post directory**: If only one blog post exists, report "Cannibalization analysis requires at least 2 posts" and exit gracefully

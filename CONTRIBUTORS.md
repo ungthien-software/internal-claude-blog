@@ -36,14 +36,14 @@ Three research-discipline methodologies in v1.8.0 are adapted from the [last30da
 
 | Methodology | Source in last30days-skill | Adapted in claude-blog |
 |---|---|---|
-| Multi-platform discourse research (Reddit / HN / X / YouTube / etc.) | `skills/last30days/SKILL.md` + `scripts/last30days.py` (API-driven) | `skills/blog-discourse/SKILL.md` + `scripts/discourse_research.py` (API-free, WebSearch + site operators) |
+| Multi-platform discourse research (Reddit / HN / X / YouTube / etc.) | `skills/last30days/SKILL.md` + `scripts/last30days.py` (API-driven) | `skills/blog-discourse/SKILL.md` + `scripts/discourse_research.py` (API-free, web_search + site operators) |
 | 5-dimension research quality rubric (groundedness, specificity, coverage, actionability, format) | `docs/search-quality-eval.md` + SKILL.md scoring | `skills/blog/references/research-quality.md` |
 | Synthesis voice contract: 6 portable LAWs of 8 upstream (no trailing Sources block, no invented titles, no em-dashes, no raw cluster dumps, inline `[name](url)` citations, discrete claims) | `skills/last30days/SKILL.md` "VOICE CONTRACT LAW" section | `skills/blog/references/synthesis-contract.md`. Upstream LAW 5 (engine-footer pass-through) and LAW 7 (`--plan` flag mandatory) are last30days runtime-specific and intentionally not ported. |
 | Pre-flight keyword-trap classes (demographic shopping, numeric trap, overly-literal, generic single-noun) | `skills/last30days/SKILL.md` "Step 0.45" | embedded in `research-quality.md` |
 | Named-entity topic decomposition pattern (Step 0.55) | `skills/last30days/SKILL.md` "Step 0.55" | embedded in `research-quality.md`, referenced by `agents/blog-researcher.md` |
 | Freshness-first ranking concept | `skills/last30days/SKILL.md` ranking-and-scoring section | freshness-floor table in `research-quality.md` (30-day / 90-day) |
 
-The upstream is a sophisticated multi-platform research engine that calls Reddit, X, YouTube, TikTok, Hacker News, Polymarket, GitHub, Bluesky, and other platform APIs and scores results by live engagement (upvotes, likes, prediction-market money). claude-blog ports the editorial methodology without the API plumbing: `blog-discourse` runs against WebSearch results with platform-targeted site operators (e.g. `site:reddit.com`, `site:news.ycombinator.com`, `site:x.com`), so it works in any environment without keys.
+The upstream is a sophisticated multi-platform research engine that calls Reddit, X, YouTube, TikTok, Hacker News, Polymarket, GitHub, Bluesky, and other platform APIs and scores results by live engagement (upvotes, likes, prediction-market money). claude-blog ports the editorial methodology without the API plumbing: `blog-discourse` runs against web_search results with platform-targeted site operators (e.g. `site:reddit.com`, `site:news.ycombinator.com`, `site:x.com`), so it works in any environment without keys.
 
 License of the source: MIT. claude-blog remains MIT-licensed. Attribution is a courtesy under MIT (not a strict requirement); credit is included in each adapted file plus this section.
 

@@ -32,7 +32,7 @@ Read the target file and extract:
 - **Meta tags** - OG tags, Twitter Card tags, canonical URL
 - **Body content** - Full text for keyword and structural analysis
 
-If the user provides a URL instead of a file path, use WebFetch to retrieve
+If the user provides a URL instead of a file path, use web_fetch to retrieve
 the page and extract the relevant elements.
 
 ### Step 2: Title Tag Validation
@@ -105,7 +105,7 @@ links per page.
 | Check | Pass Criteria |
 |-------|---------------|
 | Source tier | Links to tier 1-3 sources only (authoritative, not SEO blogs) |
-| Broken links | Use WebFetch to verify top external links are reachable |
+| Broken links | Use web_fetch to verify top external links are reachable |
 | Rel attributes | External links have appropriate rel attributes (nofollow for sponsored/UGC) |
 | Link count | At least 3 external links to authoritative sources |
 | No competitor links | Not linking to direct competitors unnecessarily |

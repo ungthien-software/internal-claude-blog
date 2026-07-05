@@ -101,7 +101,7 @@ Plan update cycles:
 
 Research seasonal opportunities:
 1. **Industry events**: Conferences, product launches, algorithm updates
-2. **Seasonal trends**: Use WebSearch to check Google Trends for the niche
+2. **Seasonal trends**: Use web_search to check Google Trends for the niche
 3. **Annual reports**: When do major studies release new data?
 4. **Algorithm updates**: Google core updates (typically 3-4 per year)
 
@@ -116,7 +116,7 @@ Research seasonal opportunities:
   - HubSpot State of Marketing (Q1)
   - Gartner Hype Cycle (August)
   - Major conference dates in the niche
-- Use WebSearch to validate timing of trends before scheduling
+- Use web_search to validate timing of trends before scheduling
 
 ### Step 5: Generate the Calendar
 

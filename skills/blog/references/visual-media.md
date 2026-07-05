@@ -86,7 +86,7 @@ date: "YYYY-MM-DD"
 - **Hotlinking**: Allowed via CDN URLs
 
 **Finding images:**
-1. WebSearch: `site:pixabay.com [topic keywords]`
+1. web_search: `site:pixabay.com [topic keywords]`
 2. Visit the image page to get the direct CDN URL
 3. Direct URL pattern: `https://cdn.pixabay.com/photo/YYYY/MM/DD/HH/MM/filename.jpg`
 4. Verify: `curl -sI "<url>" | head -1` - must return HTTP 200
@@ -101,7 +101,7 @@ date: "YYYY-MM-DD"
 - **Hotlinking**: Required - must use their CDN
 
 **Finding images:**
-1. WebSearch: `site:unsplash.com [topic keywords]`
+1. web_search: `site:unsplash.com [topic keywords]`
 2. Extract photo ID from URL (e.g., `photo-1234567890123-abcdef`)
 3. Build direct URL: `https://images.unsplash.com/photo-<id>?w=1200&h=630&fit=crop&q=80`
 4. Verify: `curl -sI "<url>" | head -1` - must return HTTP 200
@@ -109,7 +109,7 @@ date: "YYYY-MM-DD"
 ### Pexels (Fallback)
 - **License**: Pexels License - free for commercial use, no attribution required
 - **URL**: https://pexels.com
-- **Finding**: WebSearch `site:pexels.com [topic keywords]`
+- **Finding**: web_search `site:pexels.com [topic keywords]`
 
 ### Image Usage Rules
 

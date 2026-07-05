@@ -139,9 +139,9 @@ and `agents/blog-translator.md`).
 
 | Agent | Tools | Role |
 |-------|-------|------|
-| blog-researcher | WebSearch, WebFetch, Read, Grep, Glob | Find statistics, images, competitive data |
+| blog-researcher | web_search, web_fetch, Read, Grep, Glob | Find statistics, images, competitive data |
 | blog-writer | Read, Write, Edit, Grep, Glob | Write and rewrite optimized content |
-| blog-seo | Read, WebFetch, Grep, Glob | Technical SEO analysis and validation |
+| blog-seo | Read, web_fetch, Grep, Glob | Technical SEO analysis and validation |
 | blog-reviewer | Read, Grep, Glob | Quality review and scoring; **BLOCKING in v1.9.0** (emits `BLOCKING: true\|false (reason)` line parsed by `scripts/blog_preflight.py` Gate 4) |
 | blog-translator | Read, Write, Edit, Grep, Glob | Multilingual translation (v1.7.0; no Bash for blast-radius safety) |
 
@@ -215,9 +215,9 @@ docstring, JSON output, and stdlib-only or narrowly-pinned dependencies.
       |
       +-- Spawns: blog-researcher agent
       |   |
-      |   +-- WebSearch: finds 8-12 statistics
-      |   +-- WebSearch: finds 3-5 Pixabay/Unsplash images
-      |   +-- WebFetch: verifies sources and URLs
+      |   +-- web_search: finds 8-12 statistics
+      |   +-- web_search: finds 3-5 Pixabay/Unsplash images
+      |   +-- web_fetch: verifies sources and URLs
       |   +-- Returns: structured research data
       |
       +-- Presents outline for user approval

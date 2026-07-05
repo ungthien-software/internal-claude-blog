@@ -48,7 +48,7 @@ If only a topic is given, infer the rest from context.
 
 ### Step 2: Keyword Research
 
-Using WebSearch:
+Using web_search:
 1. Search for the target keyword; analyze what currently ranks
 2. Identify **primary keyword** (exact match target)
 3. Identify **3-5 secondary keywords** (related terms, long-tail)

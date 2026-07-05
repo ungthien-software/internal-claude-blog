@@ -49,7 +49,7 @@ Gather context through questions or project analysis:
 ### Step 2: Competitive Landscape
 
 Research competitors' blogs:
-1. WebSearch for competitor blog URLs
+1. web_search for competitor blog URLs
 2. For each competitor, assess:
    - Publishing frequency
    - Content types (guides, case studies, comparisons, news)
@@ -61,7 +61,7 @@ Research competitors' blogs:
 
 #### Competitive AI Citation Analysis
 
-Map competitor visibility across AI platforms. Use WebSearch to find how
+Map competitor visibility across AI platforms. Use web_search to find how
 competitors appear in AI-generated responses for target keywords.
 
 ```
